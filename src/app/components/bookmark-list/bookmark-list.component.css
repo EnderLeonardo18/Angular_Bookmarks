@@ -1,0 +1,499 @@
+/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN GLOBAL
+   ========================================= */
+:host {
+  --bg-dark: #0b0e14;
+  --bg-card: rgba(22, 27, 34, 0.95);
+  --bg-input: #0d1117;
+  --text-main: #e6edf3;
+  --text-muted: #8b949e;
+  --neon-purple: #bc13fe;
+  --neon-blue: #58a6ff;
+  --border: #30363d;
+  --danger: #f85149;
+  --ease: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background-color: var(--bg-dark);
+  min-height: 100vh;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+}
+
+/* =========================================
+   2. HEADER Y BOTÓN TOGGLE
+   ========================================= */
+.hub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.accent {
+  color: var(--neon-purple);
+  text-shadow: 0 0 15px rgba(188, 19, 254, 0.4);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.btn-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-toggle:hover,
+.btn-toggle.is-active {
+  background: var(--neon-blue);
+  color: #000;
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+}
+
+/* =========================================
+   3. PANEL DEL FORMULARIO
+   ========================================= */
+.panel-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.accent-bar {
+  width: 5px;
+  height: 1.8rem;
+  background: var(--neon-purple);
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.panel-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Control de filas y espaciado de inputs */
+.field-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  /* Importante para que no se monten en móvil */
+}
+
+.field {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.full-width {
+  width: 100%;
+  flex: none;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+}
+
+.input-control {
+  width: 100%;
+  box-sizing: border-box;
+  /* Evita que el input se salga del contenedor */
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.8rem;
+  color: white;
+  font-size: 1rem;
+  transition: var(--ease);
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 0 4px rgba(188, 19, 254, 0.1);
+}
+
+.textarea-control {
+  height: 100px;
+  resize: vertical;
+}
+
+.mini-preview {
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.mini-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Botones del Formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.btn-main {
+  background: var(--neon-purple);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+}
+
+/* =========================================
+   4. FILTROS Y GRID
+   ========================================= */
+.filter-bar {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.6rem 1.4rem;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--ease);
+}
+
+.active-filter {
+  background: var(--neon-blue);
+  color: #000;
+  font-weight: 700;
+  border-color: var(--neon-blue);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* =========================================
+   5. TARJETAS (BOOKMARK CARD)
+   ========================================= */
+.bookmark-card {
+  background: var(--bg-card);
+  border-radius: 1.2rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+
+.bookmark-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--neon-purple);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card-image-wrapper {
+  height: 180px;
+  position: relative;
+  background: #000;
+  overflow: hidden;
+}
+
+.img-fit {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.bookmark-card:hover .img-fit {
+  transform: scale(1.1);
+}
+
+.category-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--neon-purple);
+  border: 1px solid var(--neon-purple);
+  padding: 2px 10px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.category-badge {
+  border-radius: 7px;
+}
+
+/* Colores específicos para cada categoría usando atributos data- */
+.category-badge[data-category="Series"],
+.category-badge[data-category="Peliculas"] {
+  color: #f1f500;
+  border-color: #f1f500;
+  text-shadow: 0 0 5px rgba(241, 245, 0, 0.5);
+}
+
+.category-badge[data-category="Manhwa"] {
+  /* color: #ff5858; */
+  color: #00ff55;
+  /* border-color: #ff5858; */
+  border-color: #00ff55;
+}
+
+.category-badge[data-category="Programacion"] {
+  color: #00ff41;
+  border-color: #00ff41;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.category-badge[data-category="Anime"] {
+  color: #bc13fe;
+  border-color: #bc13fe;
+}
+
+.category-badge[data-category="Manga"] {
+  color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.category-badge[data-category="Youtube"] {
+  color: #ff0000;
+  border-color: #ff0000;
+}
+
+.category-badge[data-category="RRSS"] {
+  color: #1da1f2;
+  border-color: #1da1f2;
+}
+
+.category-badge[data-category="Otro"] {
+  color: #8b949e;
+  border-color: #8b949e;
+}
+
+.card-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: var(--neon-blue);
+  margin-bottom: 0.6rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.card-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.visit-link {
+  color: var(--neon-purple);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: var(--ease);
+}
+
+.action-btn:hover.edit-btn {
+  color: var(--neon-blue);
+}
+
+.action-btn:hover.delete-btn {
+  color: var(--danger);
+}
+
+.icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* Animaciones */
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* =========================================
+   7. CDK DRAG & DROP CLASES (IGUALADO A ADMIN)
+   ========================================= */
+.cdk-drag-preview {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--neon-purple);
+  opacity: 0.9;
+  border-radius: 1.2rem; /* Ajustado al radio de tus tarjetas */
+}
+
+/* Estilo para el hueco que queda al mover una carta */
+.drag-placeholder {
+  background: rgba(188, 19, 254, 0.05);
+  border: 2px dashed var(--neon-purple);
+  border-radius: 1.2rem;
+  min-height: 200px; /* Ajusta según el tamaño promedio de tus tarjetas */
+}
+
+/* Suavizado del movimiento de las cartas al reordenarse */
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cards-grid.cdk-drop-list-dragging .bookmark-card:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+
+
+.export-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-export {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--ease);
+}
+
+.btn-export span {
+  font-weight: 800;
+  color: var(--neon-blue);
+}
+
+/* Colores al pasar el mouse */
+.btn-export.json:hover {
+  border-color: #f1e05a; /* Color JSON (Amarillo JS) */
+  box-shadow: 0 0 10px rgba(241, 224, 90, 0.3);
+}
+
+.btn-export.txt:hover {
+  border-color: #58a6ff;
+  box-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
+}
+
+/* Ocultar en la impresión (PDF) */
+@media print {
+  .export-actions {
+    display: none !important;
+  }
+}

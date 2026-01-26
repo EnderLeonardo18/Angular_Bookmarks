@@ -1,0 +1,184 @@
+/* =========================
+   RESET BÁSICO
+========================= */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+.page-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+/* =========================
+   CARD FORM
+========================= */
+.form-card {
+  width: 100%;
+  max-width: 32rem;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-card:hover {
+  animation: rotarSombra 2s infinite linear;
+}
+
+@keyframes rotarSombra {
+  0%   { box-shadow: #025beab5 0px -15px 16px 5px; }
+  25%  { box-shadow: #025beab5 15px 0px 16px 5px; }
+  50%  { box-shadow: #025beab5 0px 15px 16px 5px; }
+  75%  { box-shadow: #025beab5 -15px 0px 16px 5px; }
+  100% { box-shadow: #025beab5 0px -15px 16px 5px; }
+}
+
+/* =========================
+   TÍTULOS
+========================= */
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+/* =========================
+   FORMULARIO
+========================= */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Un input por línea */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+/* Inputs */
+.form-group input,
+.custom-select,
+.info-banner input {
+  width: 100%;
+  height: 44px;
+  padding: 0.5rem 1rem;
+  border: 1px solid #144b9d92;
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.form-group input:focus,
+.custom-select:focus,
+.info-banner input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}
+
+/* =========================
+   SELECT
+========================= */
+.custom-select {
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+/* =========================
+   INFO BANNER
+========================= */
+.info-banner {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-label {
+  display: block;
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* =========================
+   TEXTOS
+========================= */
+.helper-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* =========================
+   BOTONES
+========================= */
+.button-group {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Botón principal (igual al login) */
+.submit-btn {
+  flex: 1;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.submit-btn:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+/* Cancelar */
+.cancel-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #e5e7eb;
+  color: #374151;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cancel-link:hover {
+  background-color: #d1d5db;
+}

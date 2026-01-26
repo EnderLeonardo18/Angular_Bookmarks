@@ -1,0 +1,191 @@
+/* =========================
+   RESET BÁSICO
+========================= */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+.page-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+
+/* =========================
+   CARD LOGIN
+========================= */
+.login-card {
+  width: 100%;
+  max-width: 28rem; /* max-w-md */
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.75rem; /* rounded-lg */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* shadow-lg */
+}
+
+.login-card:hover {
+  box-shadow: #025beab5 10px 14px 16px 11px;
+  /* Llamamos a la animación 'rotarSombra' */
+  animation: rotarSombra 2s infinite linear;
+}
+
+@keyframes rotarSombra {
+  0% {
+    /* Sombra arriba al centro */
+    box-shadow: #025beab5 0px -15px 16px 5px;
+  }
+  25% {
+    /* Sombra a la derecha */
+    box-shadow: #025beab5 15px 0px 16px 5px;
+  }
+  50% {
+    /* Sombra abajo */
+    box-shadow: #025beab5 0px 15px 16px 5px;
+  }
+  75% {
+    /* Sombra a la izquierda */
+    box-shadow: #025beab5 -15px 0px 16px 5px;
+  }
+  100% {
+    /* Regresa al inicio */
+    box-shadow: #025beab5 0px -15px 16px 5px;
+  }
+}
+
+
+/* =========================
+   LOGO
+========================= */
+.container-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  width: 90px;
+  height: auto;
+  display: block;
+}
+
+
+
+
+/* =========================
+   TÍTULOS
+========================= */
+.title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937; /* text-gray-800 */
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #4b5563; /* text-gray-600 */
+  margin-bottom: 2rem;
+}
+
+/* =========================
+   ERROR
+========================= */
+.error-banner {
+  background-color: #fee2e2; /* bg-red-100 */
+  border: 1px solid #f87171; /* border-red-400 */
+  color: #b91c1c; /* text-red-700 */
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.error-text {
+  color: #ef4444; /* text-red-500 */
+  font-size: 0.75rem;
+}
+
+/* =========================
+   FORMULARIO
+========================= */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #374151; /* text-gray-700 */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  /* border */
+  /* border: 1px solid #d1d5db;  */
+  border: 1px solid #144b9d92;
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: 0.95rem;
+
+}
+
+.form-group input:focus {
+  border-color: #3b82f6; /* focus:ring-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}
+
+/* =========================
+   BOTÓN
+========================= */
+.submit-btn {
+  width: 100%;
+  background-color: #2563eb; /* bg-blue-600 */
+  color: white;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #1d4ed8; /* hover:bg-blue-700 */
+}
+
+.submit-btn:disabled {
+  background-color: #93c5fd; /* disabled:bg-blue-300 */
+  cursor: not-allowed;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer-text {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280; /* text-gray-500 */
+}
+
+.footer-text a {
+  color: #0961ef; /* text-blue-500 */
+  text-decoration: none;
+  /* font-weight: 500; */
+  font-weight: bold;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

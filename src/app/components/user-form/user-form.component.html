@@ -1,0 +1,73 @@
+<div class="page-wrapper">
+  <div class="form-card">
+
+    <h2 class="title">
+      {{ isEditMode ? 'Editar Usuario' : 'Nuevo Usuario' }}
+    </h2>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+
+        <div class="form-group">
+          <label>Nombres</label>
+          <input type="text" formControlName="first_name" placeholder="Ej: Juan">
+          <span *ngIf="errors.first_name" class="error-text">{{ errors.first_name[0] }}</span>
+        </div>
+
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input type="text" formControlName="last_name" placeholder="Ej: Pérez">
+        </div>
+
+
+      <div class="form-group">
+        <label>Nombre de Usuario</label>
+        <input type="text" formControlName="username" placeholder="juan.perez">
+        <span *ngIf="errors.username" class="error-text">{{ errors.username[0] }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input type="email" formControlName="email" placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="form-group">
+        <label>Rol del Sistema</label>
+        <select formControlName="role" class="custom-select" [class.disabled-select]="!isAdmin">
+          <option value="user">USER</option>
+          <option value="admin">ADMIN</option>
+          <small *ngIf="!isAdmin" class="helper-text">Solo Administradores pueden cambiar el rol</small>
+        </select>
+      </div>
+
+      <div *ngIf="isEditMode" class="info-banner">
+        <label class="info-label">Contraseña Actual para Confirmar:</label>
+        <input type="password" formControlName="current_password" placeholder="********">
+        <span *ngIf="errors.current_password" class="error-text">{{ errors.current_password[0] }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>
+          {{ isEditMode ? 'Nueva Contraseña (Opcional)' : 'Contraseña' }}
+        </label>
+        <input type="password" formControlName="password" placeholder="********">
+        <p *ngIf="isEditMode" class="helper-text">Deja en blanco si no deseas cambiarla</p>
+        <span *ngIf="errors.password" class="error-text">{{ errors.password[0] }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar Contraseña</label>
+        <input type="password" formControlName="password_confirmation" placeholder="********">
+      </div>
+
+      <div class="button-group">
+        <button type="submit"
+                [disabled]="userForm.invalid"
+                [class]="isEditMode ? 'submit-btn btn-update' : 'submit-btn btn-save'">
+          {{ isEditMode ? 'Actualizar Usuario' : 'Guardar Usuario' }}
+        </button>
+        <a routerLink="/users" class="cancel-link">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

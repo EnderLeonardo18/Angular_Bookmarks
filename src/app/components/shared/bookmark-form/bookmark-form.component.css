@@ -1,0 +1,103 @@
+.panel-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.accent-bar {
+  width: 5px;
+  height: 1.8rem;
+  background: var(--neon-purple);
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.panel-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.field {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.full-width {
+  width: 100%;
+  flex: none;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+}
+
+.input-control {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.8rem;
+  color: white;
+  font-size: 1rem;
+  transition: var(--ease);
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 0 4px rgba(188, 19, 254, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.btn-primary {
+  background: var(--neon-purple);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+}

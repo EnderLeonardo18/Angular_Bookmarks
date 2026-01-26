@@ -1,0 +1,412 @@
+/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN GLOBAL
+   ========================================= */
+:host {
+  --bg-dark: #0b0e14;
+  --bg-card: rgba(22, 27, 34, 0.95);
+  --bg-input: #0d1117;
+  --text-main: #e6edf3;
+  --text-muted: #8b949e;
+  --neon-purple: #bc13fe;
+  --neon-blue: #58a6ff;
+  --border: #30363d;
+  --danger: #f85149;
+  --ease: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background-color: var(--bg-dark);
+  min-height: 100vh;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+}
+
+/* =========================================
+   2. HEADER Y BOTÓN TOGGLE
+   ========================================= */
+.hub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.accent {
+  color: var(--neon-purple);
+  text-shadow: 0 0 15px rgba(188, 19, 254, 0.4);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.btn-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--neon-purple);
+  color: var(--text-main);
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--ease);
+}
+
+.btn-toggle:hover {
+  background: var(--neon-purple);
+  box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
+}
+
+.btn-toggle.is-active {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+/* =========================================
+   3. PANEL DEL FORMULARIO (ADMIN)
+   ========================================= */
+.panel-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.accent-bar {
+  width: 5px;
+  height: 1.8rem;
+  background: var(--neon-purple);
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.panel-title { font-size: 1.4rem; margin: 0; }
+
+/* ===== FORM – IGUALADO A BOOKMARK-LIST ===== */
+
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* IGUAL */
+}
+
+.field-row {
+  display: flex;
+  gap: 1.5rem; /* IGUAL */
+  flex-wrap: wrap;
+  padding: 0;  /* CLAVE */
+}
+
+.field {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.full-width {
+  width: 100%;
+  flex: none;
+}
+
+
+
+.label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
+}
+
+.input-control {
+  /* width: 100%; */
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  outline: none;
+  transition: var(--ease);
+}
+
+.input-control:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 0 2px rgba(188, 19, 254, 0.2);
+}
+
+.form-actions { display: flex; justify-content: flex-end; gap: 1rem; }
+
+/* =========================================
+   4. FILTROS Y EXPORTACIÓN
+   ========================================= */
+.filter-bar {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--ease);
+}
+
+.active-filter {
+  background: var(--neon-blue);
+  color: var(--bg-dark);
+  border-color: var(--neon-blue);
+  font-weight: 700;
+}
+
+.export-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* =========================================
+   5. GRID Y TARJETAS (ESTILO DRAG)
+   ========================================= */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.bookmark-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: var(--ease);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: grab;
+}
+
+.bookmark-card:active { cursor: grabbing; }
+
+.bookmark-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon-purple);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-image-wrapper {
+  position: relative;
+  height: 160px;
+  background: #161b22;
+}
+
+/* Badge del Propietario */
+.owner-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(4px);
+  color: var(--neon-blue);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  z-index: 5;
+}
+
+.img-fit { width: 100%; height: 100%; object-fit: cover; }
+
+/* =========================================
+   6. COLORES DE CATEGORÍAS (RECUPERADOS)
+   ========================================= */
+.category-badge {
+  position: absolute;
+  top: 10px;        /* Cambiado de bottom a top para coincidir con user */
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8); /* Fondo oscuro del estilo user */
+  color: var(--neon-purple);
+  border: 1px solid var(--neon-purple);
+  padding: 2px 10px;
+  border-radius: 7px; /* Radio de borde del estilo user */
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Espaciado del estilo user */
+  z-index: 2;
+}
+
+/* Mapeo de colores por atributo data-category (Idéntico a bookmark-list) */
+.category-badge[data-category="Series"],
+.category-badge[data-category="Peliculas"] {
+  color: #f1f500;
+  border-color: #f1f500;
+  text-shadow: 0 0 5px rgba(241, 245, 0, 0.5);
+}
+
+.category-badge[data-category="Manhwa"] {
+  color: #00ff55;
+  border-color: #00ff55;
+}
+
+.category-badge[data-category="Programacion"] {
+  color: #00ff41;
+  border-color: #00ff41;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.category-badge[data-category="Anime"] {
+  color: #bc13fe;
+  border-color: #bc13fe;
+}
+
+.category-badge[data-category="Manga"] {
+  color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.category-badge[data-category="Youtube"] {
+  color: #ff0000;
+  border-color: #ff0000;
+}
+
+.category-badge[data-category="RRSS"] {
+  color: #1da1f2;
+  border-color: #1da1f2;
+}
+
+.category-badge[data-category="Otro"] {
+  color: #8b949e;
+  border-color: #8b949e;
+}
+
+/* =========================================
+   7. FOOTER Y ACCIONES
+   ========================================= */
+.card-body { padding: 1.2rem; flex-grow: 1; }
+.card-title { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.card-text { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+.card-footer {
+  padding: 1.2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+
+.visit-link { color: var(--neon-blue); text-decoration: none; font-weight: 600; }
+
+.action-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); }
+.action-btn:hover.edit-btn { color: var(--neon-blue); }
+.action-btn:hover.delete-btn { color: var(--danger); }
+.icon { width: 1.2rem; height: 1.2rem; }
+
+/* =========================================
+   8. CDK DRAG & DROP CLASES
+   ========================================= */
+.cdk-drag-preview {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--neon-purple);
+  opacity: 0.9;
+}
+
+.custom-drag-placeholder {
+  background: rgba(188, 19, 254, 0.05);
+  border: 2px dashed var(--neon-purple);
+  border-radius: 12px;
+  min-height: 250px;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cards-grid.cdk-drop-list-dragging .bookmark-card:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+
+/* Botones */
+/* BOTÓN CANCELAR (primer botón sin clase) */
+.form-actions button[type="button"] {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.9rem 1.8rem;
+  border-radius: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.form-actions button[type="button"]:hover {
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+  background: rgba(88, 166, 255, 0.08);
+}
+
+/* BOTÓN PRINCIPAL (GUARDAR / ACTUALIZAR) */
+.form-actions .btn-primary {
+  background: var(--neon-purple);
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 0.8rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.form-actions .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px rgba(188, 19, 254, 0.5);
+}
+
+/* ESTADO DESHABILITADO */
+.form-actions .btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+/* Animaciones de entrada */
+.animate-fade-in { animation: fadeIn 0.5s ease; }
+.animate-slide-down { animation: slideDown 0.3s ease-out; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

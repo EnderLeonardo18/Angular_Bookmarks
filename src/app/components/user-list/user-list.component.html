@@ -1,0 +1,87 @@
+<div class="container-wrapper">
+  <div class="main-card">
+
+    <div class="header-section">
+      <div>
+        <h2 class="title">Usuarios Registrados</h2>
+        <p class="subtitle">
+          Bienvenido, <span class="username-highlight">
+            {{ currentUser?.username }}
+          </span>
+        </p>
+      </div>
+
+      <div class="action-buttons">
+        <a *ngIf="currentUser?.role === 'admin'"
+           routerLink="/users/create"
+           class="btn btn-create">
+          + Nuevo Usuario
+        </a>
+
+        <button (click)="onLogout()"
+                class="btn btn-logout">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="successMessage" class="alert-success" role="alert">
+      <p class="alert-title">¡Logrado!</p>
+      <p>{{ successMessage }}</p>
+    </div>
+
+    <div class="table-frame">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" class="table-row">
+            <td>{{ user.id }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span [ngClass]="{
+                'badge-admin': user.role === 'admin',
+                'badge-user': user.role !== 'admin'
+              }" class="badge">
+                {{ user.role }}
+              </span>
+            </td>
+            <td>
+              <div class="actions-wrapper">
+                <!-- <ng-container *ngIf="currentUser?.role === 'admin'; else readOnly"> -->
+                  <a [routerLink]="['/users/edit', user.id]" class="btn-edit">
+                    Editar
+                  </a>
+                  <button (click)="deleteUser(user.id)" class="btn-delete">
+                    Eliminar
+                  </button>
+                <!-- </ng-container> -->
+                <ng-template #readOnly>
+                  <span class="text-readonly">Solo lectura</span>
+                </ng-template>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="users.length === 0">
+            <td colspan="7" class="empty-message">
+              No hay usuarios registrados actualmente.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

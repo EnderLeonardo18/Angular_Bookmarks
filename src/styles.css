@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+/* styles.css */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #0b0e14; /* Color de fondo de tu app */
+  min-height: 100vh;
+}

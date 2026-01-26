@@ -1,0 +1,124 @@
+<div class="main-container animate-fade-in">
+
+  <header class="hub-header">
+    <div class="header-text">
+      <h1 class="title">Panel <span class="accent">Admin 🛠️</span></h1>
+      <p class="subtitle">Gestionando marcadores de todos los usuarios. Arrastra para ordenar.</p>
+    </div>
+
+    <button (click)="toggleForm()" class="btn-toggle" [class.is-active]="showForm">
+      {{ showForm ? '✕ Cerrar Panel' : '＋ Crear mi Marcador' }}
+    </button>
+  </header>
+
+  <section *ngIf="showForm" class="panel-form animate-slide-down">
+    <div class="panel-header">
+      <div class="accent-bar"></div>
+      <h2 class="panel-title">
+        {{ isEditMode ? 'Moderación: Editar Marcador' : 'Nuevo Marcador Admin' }}
+      </h2>
+    </div>
+
+    <form [formGroup]="bookmarkForm" (ngSubmit)="onSave()" class="form-layout">
+      <div class="field-row">
+        <div class="field full-width">
+          <label class="label">Enlace del sitio (URL)</label>
+          <input type="url" formControlName="url" placeholder="https://..." class="input-control">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="label">Título</label>
+          <input type="text" formControlName="title" placeholder="Ej: Mi sitio favorito" class="input-control">
+        </div>
+
+        <div class="field">
+          <label class="label">Categoría</label>
+          <select formControlName="category" class="input-control select-control">
+            <option value="Anime">⛩️ Anime</option>
+            <option value="Manga">📖 Manga</option>
+            <option value="Youtube">📺 YouTube</option>
+            <option value="Manhwa">🇰🇷📖 Manhwa</option>
+            <option value="Series">🍿 Series</option>
+            <option value="Peliculas">🎬 Peliculas</option>
+            <option value="RRSS">🌐 Redes Sociales</option>
+            <option value="Programacion">💻 Programacion</option>
+            <option value="Otro">🔗 Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field full-width">
+          <label class="label">Imagen de vista previa (URL)</label>
+          <input type="text" formControlName="image_preview" placeholder="https://..." class="input-control">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Descripción corta</label>
+        <textarea formControlName="description" rows="2" placeholder="Opcional..." class="input-control"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="cancelEdit()" custom-drag-placeholde="btn-secondary">Cancelar</button>
+        <button type="submit" [disabled]="bookmarkForm.invalid" class="btn-primary">
+          {{ isEditMode ? 'Actualizar Cambios' : 'Guardar Marcador' }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <nav class="filter-bar">
+    <button *ngFor="let cat of categories" (click)="setFilter(cat)"
+      [class.active-filter]="filterSelected === cat" class="filter-btn">
+      {{ cat }}
+    </button>
+  </nav>
+
+  <div class="cards-grid"
+       cdkDropList
+       (cdkDropListDropped)="drop($event)"
+       cdkDropListOrientation="mixed">
+
+    <div *ngFor="let item of filteredBookmarks"
+         class="bookmark-card card-animate"
+         cdkDrag>
+
+      <div class="custom-drag-placeholder" *cdkDragPlaceholder></div>
+
+      <div class="card-image-wrapper">
+        <div class="owner-badge">
+          <span>👤 {{ item.user?.username || 'ID: ' + item.user_id }}</span>
+        </div>
+
+        <img *ngIf="item.image_preview" [src]="item.image_preview" class="img-fit" alt="preview">
+        <div *ngIf="!item.image_preview" class="no-image-placeholder">No Image</div>
+
+        <span class="category-badge" [attr.data-category]="item.category">{{ item.category }}</span>
+      </div>
+
+      <div class="card-body">
+        <h3 class="card-title">{{ item.title }}</h3>
+        <p class="card-text">{{ item.description || 'Sin descripción.' }}</p>
+      </div>
+
+      <div class="card-footer">
+        <a [href]="item.url" target="_blank" class="visit-link">Visitar ↗</a>
+        <div class="card-actions">
+          <button (click)="onEdit(item)" class="action-btn edit-btn" title="Editar como Admin">
+            <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </button>
+          <button (click)="onDelete(item.id)" class="action-btn delete-btn" title="Eliminar (Moderación)">
+            <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

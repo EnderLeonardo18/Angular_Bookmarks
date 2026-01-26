@@ -1,0 +1,51 @@
+<div class="page-wrapper">
+  <div class="login-card">
+    <div class="container-logo">
+      <img class="logo" src="/login.png" alt="img login" />
+    </div>
+
+    <h2 class="title">Iniciar Sesión</h2>
+    <p class="subtitle">Ingresa tus credenciales para acceder</p>
+
+    <div *ngIf="errorMessage" class="error-banner">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="correo@ejemplo.com"
+        />
+        <span
+          *ngIf="
+            loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+          "
+          class="error-text"
+        >
+          Correo inválido
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="********"
+        />
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid" class="submit-btn">
+        Entrar
+      </button>
+    </form>
+
+    <p class="footer-text">
+      ¿No tienes cuenta?
+      <a routerLink="/users/create">Regístrate aquí</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<nav class="navbar" *ngIf="isLogged()">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <span class="brand-text">Marcadores<span class="accent">🎞</span></span>
+    </div>
+
+    <ul class="nav-links">
+      <li>
+        <a routerLink="/bookmarks"
+           routerLinkActive="active-link"
+           [class.disabled-link]="isRouteActive('/bookmarks')">
+           Mis Marcadores
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/users"
+           routerLinkActive="active-link"
+           [class.disabled-link]="isRouteActive('/users')">
+           Usuarios
+        </a>
+      </li>
+
+      <li *ngIf="isAdmin()">
+        <a routerLink="/admin/bookmarks"
+           routerLinkActive="active-link"
+           [class.disabled-link]="isRouteActive('/admin/bookmarks')">
+           Admin Panel
+        </a>
+      </li>
+
+      <li>
+        <button (click)="logout()" class="btn-logout">
+          Salir
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>

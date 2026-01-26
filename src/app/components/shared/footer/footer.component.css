@@ -1,0 +1,30 @@
+.main-footer {
+  background-color: #0b0e14;
+  border-top: 1px solid #30363d;
+  color: #8b949e;
+  padding: 2rem 0 1rem 0;
+  width: 100%;
+  margin: 0; /* Sin espacio arriba */
+}
+
+.footer-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.brand-logo {
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+}
+
+.accent { color: #bc13fe; }
+
+.footer-bottom {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
