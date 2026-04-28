@@ -1,1 +1,74 @@
-<p>bookmark-form works!</p>
+<div class="panel-header">
+  <div class="accent-bar"></div>
+  <h2 class="panel-title">
+    <span *ngIf="!isEditMode">✨ Nuevo Enlace ⛩️</span>
+    <span *ngIf="isEditMode">📝 Actualizar Marcador ⚙️</span>
+  </h2>
+</div>
+
+<form [formGroup]="bookmarkForm" (ngSubmit)="submit()" class="form-layout">
+
+  <div class="field-row">
+    <div class="field full-width">
+      <label class="label">🌐 Enlace del sitio (URL)</label>
+      <input type="url" formControlName="url" placeholder="https://..." class="input-control">
+      <small class="error-text" *ngIf="bookmarkForm.get('url')?.invalid && bookmarkForm.get('url')?.touched">
+        ⚠️ Introduce una URL válida (http://...)
+      </small>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="label">🔖 Título</label>
+      <input type="text" formControlName="title" placeholder="Ej: Mi Anime Favorito" class="input-control">
+    </div>
+    <div class="field">
+      <label class="label">📂 Categoría</label>
+      <select formControlName="category" class="input-control">
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="label">📊 Estado de avance</label>
+      <select formControlName="status" class="input-control">
+        <option *ngFor="let opt of statusOptions" [value]="opt">{{ opt }}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="label">🎯 ¿Por dónde vas?</label>
+      <input type="text" formControlName="progress_note" [placeholder]="progressPlaceholder" class="input-control">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field full-width">
+      <label class="label">🔗 Capítulo/Episodio actual (Opcional)</label>
+      <input type="url" formControlName="progress_url" placeholder="https://ver-capitulo-actual.com" class="input-control">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="label">🖼️ Miniatura (URL)</label>
+      <input type="text" formControlName="image_preview" placeholder="https://imagen.png" class="input-control">
+    </div>
+    <div class="field">
+      <label class="label">✍️ Nota personal</label>
+      <textarea formControlName="description" rows="2" class="input-control" placeholder="Algo que quieras recordar..."></textarea>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" (click)="cancel.emit()" class="btn-cancel">
+      ✕ Cancelar
+    </button>
+    <button type="submit" [disabled]="bookmarkForm.invalid" class="btn-primary">
+      <span *ngIf="!isEditMode">🚀 Guardar en mi Lista</span>
+      <span *ngIf="isEditMode">💾 Aplicar Cambios</span>
+    </button>
+  </div>
+</form>

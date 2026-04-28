@@ -31,14 +31,40 @@
         <input type="email" formControlName="email" placeholder="correo@ejemplo.com">
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Rol del Sistema</label>
         <select formControlName="role" class="custom-select" [class.disabled-select]="!isAdmin">
           <option value="user">USER</option>
           <option value="admin">ADMIN</option>
           <small *ngIf="!isAdmin" class="helper-text">Solo Administradores pueden cambiar el rol</small>
         </select>
+      </div> -->
+
+      <!-- Caso 1: Admin editando a otro usuario → muestra select -->
+      <div class="form-group" *ngIf="isEditMode && isAdmin && currentUserId !== userId">
+        <label>Rol del Sistema</label>
+        <select formControlName="role" class="custom-select">
+          <option value="user">Usuario Normal</option>
+          <option value="admin">Administrador</option>
+        </select>
+        <small class="helper-text">Define los permisos del usuario</small>
       </div>
+
+      <!-- Caso 2: Resto de casos (creación, usuario editándose a sí mismo, o usuario normal) → muestra badge de solo lectura -->
+      <!-- <div class="form-group" *ngIf="!isEditMode || !(isAdmin && currentUserId !== userId)">
+        <label>Rol del Sistema</label>
+        <div class="role-readonly">
+          <span class="role-badge" [class.badge-admin]="userForm.get('role')?.value === 'admin'">
+            {{ userForm.get('role')?.value === 'admin' ? 'Administrador' : 'Usuario Normal' }}
+          </span>
+          <small class="helper-text" *ngIf="!isAdmin || currentUserId === userId">
+            No puedes modificar tu propio rol
+          </small>
+          <small class="helper-text" *ngIf="!isEditMode">
+            Al crear un usuario, se asigna rol "Usuario Normal" por defecto
+          </small>
+        </div>
+      </div> -->
 
       <div *ngIf="isEditMode" class="info-banner">
         <label class="info-label">Contraseña Actual para Confirmar:</label>

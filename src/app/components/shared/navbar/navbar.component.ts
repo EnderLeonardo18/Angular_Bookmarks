@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -20,10 +20,14 @@ export class NavbarComponent implements OnInit {
   isLogged = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   currentRoute = signal<string>(''); // Nueva señal para la ruta actual
+  currentUser: any = null;
+
+
 
   ngOnInit(): void {
     // Escuchamos el observable del servicio
     this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user; // Asignar el usuario a la propiedad
       // Si hay usuario o token, mostramos la barra
       this.isLogged.set(!!user || !!localStorage.getItem('auth_token'));
 
@@ -65,4 +69,5 @@ export class NavbarComponent implements OnInit {
     this.isLogged.set(false);
     this.router.navigate(['/login']);
   }
+
 }

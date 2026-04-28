@@ -1,10 +1,14 @@
 .main-footer {
-  background-color: #0b0e14;
-  border-top: 1px solid #30363d;
+  background-color: rgba(11, 14, 20, 0.7);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(168, 85, 247, 0.3);
+
   color: #8b949e;
   padding: 2rem 0 1rem 0;
   width: 100%;
   margin: 0; /* Sin espacio arriba */
+
+  margin-top: auto; /* ya lo tienes, verifica que esté */
 }
 
 .footer-content {

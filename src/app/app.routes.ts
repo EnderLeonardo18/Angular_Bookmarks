@@ -18,6 +18,7 @@ export const routes: Routes = [
   { path: 'users/create', component: UserFormComponent ,title: 'Crear Usuario' },
   // { path: 'users/edit/:id', component: UserFormComponent, canActivate: [authGuard ,adminGuard] , title: 'Editar Usuario' },
   { path: 'users/edit/:id', component: UserFormComponent, title: 'Editar Usuario' },
+  { path: 'profile', component: UserFormComponent, canActivate: [authGuard], title: 'Mi Perfil' },
 
   {path: 'admin/bookmarks', component: AdminBookmarkListComponent, canActivate: [authGuard, adminGuard], title: 'Lista de Admin'},
 

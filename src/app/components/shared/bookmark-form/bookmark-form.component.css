@@ -1,12 +1,20 @@
-.panel-form {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 1.5rem;
-  padding: 2rem;
-  margin-bottom: 3rem;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+/* =========================================
+   VARIABLES LOCALES (Basadas en tu tema)
+   ========================================= */
+:host {
+  --bg-input: #0d1117;
+  --text-main: #e6edf3;
+  --text-muted: #8b949e;
+  --neon-purple: #bc13fe;
+  --neon-blue: #58a6ff;
+  --border: #30363d;
+  --danger: #f85149;
+  --ease: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* =========================================
+   CONTENEDOR DEL PANEL
+   ========================================= */
 .panel-header {
   display: flex;
   align-items: center;
@@ -15,18 +23,24 @@
 }
 
 .accent-bar {
-  width: 5px;
-  height: 1.8rem;
+  width: 4px;
+  height: 24px;
   background: var(--neon-purple);
-  border-radius: 4px;
-  box-shadow: 0 0 10px var(--neon-purple);
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
 }
 
 .panel-title {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
+/* =========================================
+   ESTRUCTURA DEL FORMULARIO
+   ========================================= */
 .form-layout {
   display: flex;
   flex-direction: column;
@@ -34,70 +48,130 @@
 }
 
 .field-row {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
 }
 
+.full-width {
+  grid-column: span 2;
+}
+
+/* =========================================
+   CONTROLES DE ENTRADA
+   ========================================= */
 .field {
-  flex: 1;
-  min-width: 250px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.full-width {
-  width: 100%;
-  flex: none;
-}
-
 .label {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--neon-blue);
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .input-control {
-  width: 100%;
   background: var(--bg-input);
   border: 1px solid var(--border);
-  padding: 0.85rem 1.1rem;
+  color: var(--text-main);
+  padding: 0.8rem 1rem;
   border-radius: 0.8rem;
-  color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
   transition: var(--ease);
 }
 
 .input-control:focus {
   outline: none;
   border-color: var(--neon-purple);
-  box-shadow: 0 0 0 4px rgba(188, 19, 254, 0.1);
+  box-shadow: 0 0 0 3px rgba(188, 19, 254, 0.15);
+  background: rgba(13, 17, 23, 0.8);
 }
 
+textarea.input-control {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error-text {
+  color: var(--danger);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* =========================================
+   ACCIONES / BOTONES
+   ========================================= */
 .form-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 1rem;
-  padding-top: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-cancel:hover {
+  border-color: var(--text-main);
+  color: var(--text-main);
 }
 
 .btn-primary {
   background: var(--neon-purple);
   color: white;
   border: none;
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
   border-radius: 0.8rem;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
-  flex: 1;
+  transition: var(--ease);
+  box-shadow: 0 4px 12px rgba(188, 19, 254, 0.2);
 }
 
-.btn-secondary {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  padding: 1rem 2rem;
-  border-radius: 0.8rem;
-  cursor: pointer;
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(188, 19, 254, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-primary, .btn-cancel {
+    width: 100%;
+  }
 }

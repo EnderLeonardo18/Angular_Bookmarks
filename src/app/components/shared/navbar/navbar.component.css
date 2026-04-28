@@ -1,108 +1,197 @@
-/* navbar.component.css */
+/* =========================================
+   NAVBAR MODERNA - ESTILO LIMPIO
+   ========================================= */
+
 .navbar {
-  background: rgba(11, 14, 20, 0.98);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #30363d;
-  padding: 0.7rem 2rem;
+ background: rgba(15, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+
+  padding: 0 2rem;
   position: sticky;
-  top: 0; /* Pega la barra al borde superior exacto */
+  top: 0;
   left: 0;
   right: 0;
-  z-index: 2000; /* Asegura que esté por encima de todo */
-  width: 100%;
-  box-sizing: border-box;
+  z-index: 9999;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .nav-container {
-  max-width: 1100px;
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* =========================================
+   MARCA / LOGO
+   ========================================= */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .brand-text {
   font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.5px;
 }
 
-.accent { color: #bc13fe; }
+.accent {
+  background: linear-gradient(135deg, #a855f7, #d946ef);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.6rem;
+}
 
+/* =========================================
+   ENLACES DE NAVEGACIÓN
+   ========================================= */
 .nav-links {
   display: flex;
+  align-items: center;
   list-style: none;
-  gap: 2rem;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
 }
 
+.nav-links li {
+  display: flex;
+  align-items: center;
+}
+
 .nav-links a {
-  color: #8b949e;
+  color: #9ca3af;
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.3s;
+  font-size: 0.9rem;
+  transition: all 0.2s ease-in-out;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
 }
 
-.nav-links a.active, .nav-links a:hover {
-  color: #58a6ff;
-}
-
-
-
-/* Bloquea clics y cambia la apariencia */
-.disabled-link {
-  pointer-events: none; /* Evita que el usuario haga clic */
-  opacity: 0.5;         /* Se ve más transparente */
-  color: var(--text-secondary) !important;
-  cursor: default;
-  text-decoration: none;
-}
-
-/* Opcional: Si quieres que el botón activo brille diferente */
-.nav-links a.active {
-  color: #58a6ff;
-  border-bottom: 2px solid #58a6ff;
-  padding-bottom: 4px;
-}
-
-.btn-logout {
-  background: transparent;
-  border: 1px solid #f85149;
-  color: #f85149;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s;
-}
-
-.btn-logout:hover {
-  background: #f85149;
-  color: white;
-}
-
-
-
-/* Estilo para el link de la página donde estás parado */
-.active-link {
-  color: #ffcc00; /* Color distintivo */
-  font-weight: bold;
-  border-bottom: 2px solid #ffcc00;
-  pointer-events: none; /* Evita clics repetidos en la ruta actual */
-}
-
-/* Efecto Hover para links que NO son la ruta actual */
+/* Efecto hover para enlaces no activos */
 .nav-links a:not(.active-link):hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
   color: #ffffff;
-  transition: all 0.3s ease;
+  background: #1f2937;
+  transform: translateY(-1px);
 }
 
-/* Estilo para links restringidos (si decides mostrarlos) */
+/* Enlace activo (ruta actual) */
+.active-link {
+  color: #a855f7 !important;
+  background: rgba(168, 85, 247, 0.12);
+  font-weight: 700;
+  pointer-events: none;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* =========================================
+   ENLACES DESHABILITADOS
+   ========================================= */
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.5;
+  color: #6b7280 !important;
+  cursor: default;
+  filter: grayscale(0.3);
+}
+
 .restricted-link {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+/* =========================================
+   BOTÓN DE LOGOUT
+   ========================================= */
+.btn-logout {
+  background: transparent;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+  margin-left: 0.5rem;
+  letter-spacing: 0.3px;
+}
+
+.btn-logout:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-logout:active {
+  transform: translateY(1px);
+}
+
+/* =========================================
+   RESPONSIVE (opcional)
+   ========================================= */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+    height: auto;
+    min-height: 60px;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    padding: 0.75rem 0;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .nav-links a,
+  .btn-logout {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .brand-text {
+    font-size: 1.2rem;
+  }
+}
+
+
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 2rem;
+  padding: 0.4rem 1rem;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.profile-link:hover {
+  background: rgba(168, 85, 247, 0.2);
+  transform: translateY(-1px);
 }

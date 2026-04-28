@@ -59,19 +59,28 @@
               </span>
             </td>
             <td>
-              <div class="actions-wrapper">
-                <!-- <ng-container *ngIf="currentUser?.role === 'admin'; else readOnly"> -->
-                  <a [routerLink]="['/users/edit', user.id]" class="btn-edit">
-                    Editar
-                  </a>
-                  <button (click)="deleteUser(user.id)" class="btn-delete">
-                    Eliminar
-                  </button>
-                <!-- </ng-container> -->
+              <!-- <div class="actions-wrapper">
+
+                <ng-container *ngIf="currentUser?.role === 'admin'">
+                  <a [routerLink]="['/users/edit', user.id]" class="btn-edit">Editar</a>
+                  <button (click)="deleteUser(user.id)" class="btn-delete">Eliminar</button>
+                </ng-container>
+
+                <ng-container *ngIf="currentUser?.role !== 'admin' && user.id === currentUser?.id">
+                  <a [routerLink]="['/users/edit', user.id]" class="btn-edit">Editar mi perfil</a>
+              </ng-container>
+
                 <ng-template #readOnly>
                   <span class="text-readonly">Solo lectura</span>
                 </ng-template>
-              </div>
+              </div> -->
+
+
+              <div class="actions-wrapper">
+                <a [routerLink]="['/users/edit', user.id]" class="btn-edit">Editar</a>
+                <button (click)="deleteUser(user.id)" class="btn-delete">Eliminar</button>
+            </div>
+
             </td>
           </tr>
 

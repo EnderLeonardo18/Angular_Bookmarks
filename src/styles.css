@@ -1,8 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
-/* styles.css */
+/* html, body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at 20% 30%, #1a1a2e, #0f0c1f, #05050a);
+  min-height: 100vh;
+  color: #e6edf3;
+} */
+
+
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #0b0e14; /* Color de fondo de tu app */
+  background: linear-gradient(135deg, #1e1b2f 0%, #0f0c1f 50%, #0a0a14 100%);
   min-height: 100vh;
+  color: #e6edf3;
 }
+
+/* :root {
+  --bg-dark: #0b0e14;
+  --bg-card: rgba(22, 27, 34, 0.95);
+  --bg-input: #0d1117;
+  --text-main: #e6edf3;
+  --text-muted: #8b949e;
+  --text-primary: #ffffff;
+  --neon-purple: #bc13fe;
+  --neon-blue: #58a6ff;
+  --border: #30363d;
+  --danger: #f85149;
+} */

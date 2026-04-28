@@ -28,8 +28,20 @@ export class UserListComponent implements OnInit {
   ngOnInit(){
     // Recuperamos los datos del usuario que guardamos en el login
     // Nota: Deberías guardar el objeto user en localStorage al hacer login
-    const userJson = localStorage.getItem('user_data');
-    this.currentUser = userJson ? JSON.parse(userJson) : { first_name: 'Usuario', role: 'user' };
+    // const userJson = localStorage.getItem('user_data');
+    // this.currentUser = userJson ? JSON.parse(userJson) : { first_name: 'Usuario', role: 'user' };
+
+    // Usar el observable o el valor síncrono del servicio
+    this.currentUser = this.authService.currentUserValue;
+    if(!this.currentUser){
+      const userJson = localStorage.getItem('user_data');
+      this.currentUser = userJson ? JSON.parse(userJson) : null;
+    }
+    // Si no es admin, redirigir al perfil (usando el formulario de edición normal)
+    if (this.currentUser?.role !== 'admin') {
+      this.router.navigate(['/users/edit', this.currentUser?.id]);
+      return;
+    }
 
     this.loadUser();
   }
@@ -37,6 +49,11 @@ export class UserListComponent implements OnInit {
   loadUser(){
     this.userService.getUser().subscribe({
       next: (data: any) => {
+        let allUsers = data.data;
+        // Si no es admin, mostrar su propio registro
+        if (this.currentUser?.role !== 'admin') {
+          allUsers = allUsers.filter((u: any) => u.id === this.currentUser.id);
+        }
         // Laravel paginate devuelve los datos en 'data'
         this.users = data.data;
       },

@@ -5,6 +5,21 @@
     </div>
 
     <ul class="nav-links">
+      <!-- <li>
+        <a routerLink="/users"
+           routerLinkActive="active-link"
+           [class.disabled-link]="isRouteActive('/users')">
+           Usuarios
+        </a>
+      </li> -->
+      <li *ngIf="isAdmin()">
+        <a routerLink="/users"
+          routerLinkActive="active-link"
+          [class.disabled-link]="isRouteActive('/users')">
+          Usuarios
+        </a>
+      </li>
+
       <li>
         <a routerLink="/bookmarks"
            routerLinkActive="active-link"
@@ -13,13 +28,6 @@
         </a>
       </li>
 
-      <li>
-        <a routerLink="/users"
-           routerLinkActive="active-link"
-           [class.disabled-link]="isRouteActive('/users')">
-           Usuarios
-        </a>
-      </li>
 
       <li *ngIf="isAdmin()">
         <a routerLink="/admin/bookmarks"
@@ -30,10 +38,17 @@
       </li>
 
       <li>
+        <a routerLink="/profile" class="profile-link" title="Mi perfil">
+          👤 {{ currentUser?.username || 'Perfil' }}
+        </a>
+      </li>
+      <li>
         <button (click)="logout()" class="btn-logout">
           Salir
         </button>
       </li>
+
+
     </ul>
   </div>
 </nav>

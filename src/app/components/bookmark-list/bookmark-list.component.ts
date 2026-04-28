@@ -1,9 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { BookmarkService } from '../../services/bookmark.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Bookmark } from '../../core/interfaces/bookmark.interface';
-import { BookmarkDTO } from '../../core/dtos/bookmark.dto';
+import { Bookmark, BOOKMARK_CATEGORIES, BOOKMARK_STATUSES } from '../../core/interfaces/bookmark.interface';
 import { CommonModule } from '@angular/common';
 import {
   CdkDragDrop,
@@ -14,35 +12,31 @@ import { BookmarkFormComponent } from '../shared/bookmark-form/bookmark-form.com
 
 @Component({
   selector: 'app-bookmark-list',
-  imports: [CommonModule, ReactiveFormsModule, DragDropModule],
+  imports: [CommonModule, DragDropModule, BookmarkFormComponent],
   templateUrl: './bookmark-list.component.html',
   styleUrl: './bookmark-list.component.css',
 })
 export class BookmarkListComponent implements OnInit {
   private readonly bookmarkService = inject(BookmarkService);
-  private readonly fb = inject(FormBuilder);
   private readonly toastr = inject(ToastrService);
 
   bookmarks: Bookmark[] = [];
   isEditMode = false;
   editingId: number | null = null;
+  showForm = true; // Por defecto
+  selectedBookmark: any = null; // <--- Nueva variable para pasar datos al hijo
 
   filterSelected: string = 'Todos'; // Estado del filtro
-  // categories: string[] = ['Todos', 'Anime', 'Manga', 'Youtube', 'Otro'];
-  categories: string[] = ['Todos', 'Anime', 'Manga', 'Youtube', 'Manhwa', 'Series', 'Peliculas', 'RRSS', 'Programacion' , 'Otro'];
+  filterCategories: string[] = ['Todos', ...BOOKMARK_CATEGORIES];
 
 
-  showForm = true; // Por defecto
+
+  readonly categories = BOOKMARK_CATEGORIES;
 
 
-  // Formulario simple para agregar marcadores
-  bookmarkForm = this.fb.group({
-    title: ['', [Validators.required]],
-    url: ['', [Validators.required, Validators.pattern('https?://.+')]],
-    category: ['Anime', [Validators.required]],
-    description: ['', [Validators.maxLength(255)]],
-    image_preview: [''], // Campo opcional para tu propia imagen
-  });
+  filterStatus: string = 'Todos';
+  readonly statusOptions = [ 'Todos', ...BOOKMARK_STATUSES];
+
 
   ngOnInit(): void {
     this.loadBookmarks();
@@ -62,42 +56,43 @@ export class BookmarkListComponent implements OnInit {
   }
 
   // Cargar datos en el formulario para editar
+  // Antes llenaba el formulario local, ahora solo debe "avisarle" al hijo.
   onEdit(item: Bookmark) {
     this.isEditMode = true;
     this.editingId = item.id;
-    this.bookmarkForm.patchValue({
-      title: item.title,
-      url: item.url,
-      category: item.category,
-      description: item.description,
-      image_preview: item.image_preview,
-    });
+    this.selectedBookmark = item; // Esto le pasa los datos al app-bookmark-form
+    this.showForm = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  onSave() {
-    if (this.bookmarkForm.invalid) return;
-    const data = this.bookmarkForm.value as BookmarkDTO;
-
+  // Este método lo llamará el HTML cuando el hijo emita (save)
+// Este método centraliza si creamos o editamos
+  handleSave(formData: any) {
     if (this.isEditMode && this.editingId) {
-      this.bookmarkService.updateBookmark(this.editingId, data).subscribe({
+      // Llamas a tu lógica de updateBookmark
+      this.bookmarkService.updateBookmark(this.editingId, formData).subscribe({
         next: () => {
-          this.toastr.success('Marcador Actualizado');
-          this.cancelEdit();
+          this.toastr.success('Marcador actualizado');
           this.loadBookmarks();
+          this.cancelEdit();
         },
+        error: () => this.toastr.error('Error al actualizar')
       });
     } else {
-      this.bookmarkService.createBookmark(data).subscribe({
+      // Llamas a tu lógica de createBookmark
+      this.bookmarkService.createBookmark(formData).subscribe({
         next: (newBookmark) => {
-          this.toastr.success('Marcador Creado');
+          this.toastr.success('Marcador creado');
+          // this.loadBookmarks();
           this.bookmarks.unshift(newBookmark); // Agrega al inicio de la lista
-          this.bookmarkForm.reset({ category: 'Anime' });
+          this.cancelEdit();
         },
-        // error: (err) => this.toastr.error('Error al guardar❌')
+        error: () => this.toastr.error('Error al crear')
       });
     }
   }
+
+
 
   onDelete(id: number) {
     if (!confirm('Eliminar marcador?')) return;
@@ -113,7 +108,8 @@ export class BookmarkListComponent implements OnInit {
   cancelEdit() {
     this.isEditMode = false;
     this.editingId = null;
-    this.bookmarkForm.reset({ category: 'Anime' });
+    this.selectedBookmark = null;
+    this.showForm = false;
   }
 
   drop(event: CdkDragDrop<Bookmark[]>) {
@@ -126,18 +122,39 @@ export class BookmarkListComponent implements OnInit {
     const itemDestino = displayedArray[event.currentIndex];
 
     // 3. Encontramos sus posiciones REALES en el array principal de marcadores
-    const indexRealOrigen = this.bookmarks.findIndex(
-      (b) => b.id === itemMovido.id
-    );
-    const indexRealDestino = this.bookmarks.findIndex(
-      (b) => b.id === itemDestino.id
-    );
+    const indexRealOrigen = this.bookmarks.findIndex( (b) => b.id === itemMovido.id );
+    const indexRealDestino = this.bookmarks.findIndex( (b) => b.id === itemDestino.id );
 
     // 4. Movemos el elemento en la lista maestra
     moveItemInArray(this.bookmarks, indexRealOrigen, indexRealDestino);
 
-    this.toastr.info('Orden actualizado localmente');
+
+    // 5. Guardar el nuevo orden en el backend
+    const orderedIds = this.bookmarks.map(b => b.id);
+    this.bookmarkService.updateOrder(orderedIds).subscribe({
+      next: () => this.toastr.success('Orden guardado permanentemente'),
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Error al guardar el orden. Recargando...')
+        this.loadBookmarks(); // Recargara y deshace el cambio visual
+      }
+    })
   }
+
+
+    setStatusFilter(event: Event) {
+      const select = event.target as HTMLSelectElement;
+      this.filterStatus = select.value;
+    }
+
+    setFilter(category: string) {
+      this.filterSelected = category;
+    }
+
+    resetFilters() {
+      this.filterSelected = 'Todos';
+      this.filterStatus = 'Todos';
+    }
 
 
   toggleForm() {
@@ -145,26 +162,17 @@ export class BookmarkListComponent implements OnInit {
   }
 
 
+  // Obtener los datos del filtro
   get filteredBookmarks() {
-    if (this.filterSelected === 'Todos') return this.bookmarks;
-    return this.bookmarks.filter((b) => b.category === this.filterSelected);
+    let result = this.bookmarks;
+    if (this.filterSelected !== 'Todos') {
+      result = result.filter(b => b.category === this.filterSelected);
+    }
+    if (this.filterStatus !== 'Todos') {
+      result = result.filter(b => b.status === this.filterStatus);
+    }
+    return result;
   }
-
-  setFilter(category: string) {
-    this.filterSelected = category;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -181,12 +189,13 @@ export class BookmarkListComponent implements OnInit {
       titulo: item.title,
       url: item.url,
       categoria: item.category,
+      estado: item.status,
       descripcion: item.description,
-      imagen: item.image_preview
+      imagen: item.image_preview,
+      progreso_nota: item.progress_note,
+      progreso_url: item.progress_url,
     }));
-
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    this.downloadFile(blob, 'respaldo_marcadores.json');
+    // ...
   }
 
   // 3. Método para Exportar TXT
@@ -196,11 +205,14 @@ export class BookmarkListComponent implements OnInit {
     content += "==========================================\n\n";
 
     this.filteredBookmarks.forEach((item, index) => {
-      content += `${index + 1}. ${item.title.toUpperCase()}\n`;
-      content += `   Categoría: ${item.category}\n`;
-      content += `   Link: ${item.url}\n`;
-      content += `   Nota: ${item.description || 'Sin descripción'}\n`;
-      content += "------------------------------------------\n";
+    content += `${index + 1}. ${item.title.toUpperCase()}\n`;
+    content += `   Categoría: ${item.category}\n`;
+    content += `   Estado: ${item.status}\n`;
+    content += `   Link: ${item.url}\n`;
+    if (item.progress_note) content += `   Progreso: ${item.progress_note}\n`;
+    if (item.progress_url) content += `   Link de progreso: ${item.progress_url}\n`;
+    content += `   Nota: ${item.description || 'Sin descripción'}\n`;
+    content += "------------------------------------------\n";
     });
 
     const blob = new Blob([content], { type: 'text/plain' });

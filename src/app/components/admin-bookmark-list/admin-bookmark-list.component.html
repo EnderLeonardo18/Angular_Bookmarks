@@ -3,80 +3,58 @@
   <header class="hub-header">
     <div class="header-text">
       <h1 class="title">Panel <span class="accent">Admin 🛠️</span></h1>
-      <p class="subtitle">Gestionando marcadores de todos los usuarios. Arrastra para ordenar.</p>
+      <p class="subtitle">Gestionando marcadores globales. Arrastra para reordenar.</p>
     </div>
 
     <button (click)="toggleForm()" class="btn-toggle" [class.is-active]="showForm">
-      {{ showForm ? '✕ Cerrar Panel' : '＋ Crear mi Marcador' }}
+      {{ showForm ? '✕ Cerrar Panel' : '＋ Nuevo Marcador Admin' }}
     </button>
   </header>
 
+  <!-- FORMULARIO REUTILIZABLE (igual que bookmark-list) -->
   <section *ngIf="showForm" class="panel-form animate-slide-down">
-    <div class="panel-header">
-      <div class="accent-bar"></div>
-      <h2 class="panel-title">
-        {{ isEditMode ? 'Moderación: Editar Marcador' : 'Nuevo Marcador Admin' }}
-      </h2>
-    </div>
-
-    <form [formGroup]="bookmarkForm" (ngSubmit)="onSave()" class="form-layout">
-      <div class="field-row">
-        <div class="field full-width">
-          <label class="label">Enlace del sitio (URL)</label>
-          <input type="url" formControlName="url" placeholder="https://..." class="input-control">
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label class="label">Título</label>
-          <input type="text" formControlName="title" placeholder="Ej: Mi sitio favorito" class="input-control">
-        </div>
-
-        <div class="field">
-          <label class="label">Categoría</label>
-          <select formControlName="category" class="input-control select-control">
-            <option value="Anime">⛩️ Anime</option>
-            <option value="Manga">📖 Manga</option>
-            <option value="Youtube">📺 YouTube</option>
-            <option value="Manhwa">🇰🇷📖 Manhwa</option>
-            <option value="Series">🍿 Series</option>
-            <option value="Peliculas">🎬 Peliculas</option>
-            <option value="RRSS">🌐 Redes Sociales</option>
-            <option value="Programacion">💻 Programacion</option>
-            <option value="Otro">🔗 Otro</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field full-width">
-          <label class="label">Imagen de vista previa (URL)</label>
-          <input type="text" formControlName="image_preview" placeholder="https://..." class="input-control">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Descripción corta</label>
-        <textarea formControlName="description" rows="2" placeholder="Opcional..." class="input-control"></textarea>
-      </div>
-
-      <div class="form-actions">
-        <button type="button" (click)="cancelEdit()" custom-drag-placeholde="btn-secondary">Cancelar</button>
-        <button type="submit" [disabled]="bookmarkForm.invalid" class="btn-primary">
-          {{ isEditMode ? 'Actualizar Cambios' : 'Guardar Marcador' }}
-        </button>
-      </div>
-    </form>
+    <app-bookmark-form
+      [isEditMode]="isEditMode"
+      [bookmarkData]="selectedBookmark"
+      (save)="handleSave($event)"
+      (cancel)="cancelEdit()">
+    </app-bookmark-form>
   </section>
 
+  <!-- BARRA DE FILTROS (misma clase que bookmark-list) -->
   <nav class="filter-bar">
-    <button *ngFor="let cat of categories" (click)="setFilter(cat)"
-      [class.active-filter]="filterSelected === cat" class="filter-btn">
+    <button *ngFor="let cat of filterCategories"
+            (click)="setFilter(cat)"
+            [class.active-filter]="filterSelected === cat"
+            class="filter-btn">
       {{ cat }}
     </button>
   </nav>
 
+  <!-- BARRA DE FILTRO POR ESTADO (EMISION-PENDIENTE ETC...) -->
+<div class="filter-status">
+  <label class="status-label">Filtrar por estado:</label>
+  <select class="status-select" [value]="filterStatus" (change)="setStatusFilter($event)">
+    <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+  </select>
+  <button (click)="resetFilters()" class="btn-reset-filters" title="Limpiar filtros">✖</button>
+</div>
+
+
+  <!-- BOTONES DE EXPORTACIÓN (nuevo) -->
+<div class="export-actions">
+  <button (click)="exportJSON()" class="btn-export json">
+    <span>{{ '{' }} {{ '}' }}</span> JSON
+  </button>
+  <button (click)="exportTXT()" class="btn-export txt">
+    <span>📄</span> TXT
+  </button>
+  <button (click)="printBookmarks()" class="btn-print">
+    <span>🖨️</span> PDF
+  </button>
+</div>
+
+  <!-- GRID DE TARJETAS -->
   <div class="cards-grid"
        cdkDropList
        (cdkDropListDropped)="drop($event)"
@@ -89,9 +67,13 @@
       <div class="custom-drag-placeholder" *cdkDragPlaceholder></div>
 
       <div class="card-image-wrapper">
+        <!-- BADGE DE PROPIETARIO (exclusivo admin) -->
         <div class="owner-badge">
           <span>👤 {{ item.user?.username || 'ID: ' + item.user_id }}</span>
         </div>
+
+        <!-- BADGE DE ID ADMIN (opcional) -->
+        <div class="admin-id-badge" *ngIf="item.id">#{{ item.id }}</div>
 
         <img *ngIf="item.image_preview" [src]="item.image_preview" class="img-fit" alt="preview">
         <div *ngIf="!item.image_preview" class="no-image-placeholder">No Image</div>
@@ -121,4 +103,5 @@
       </div>
     </div>
   </div>
+
 </div>

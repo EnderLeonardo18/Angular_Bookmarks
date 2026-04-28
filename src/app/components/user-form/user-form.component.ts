@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { UserDTO } from '../../core/dtos/user.dto';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -25,14 +26,15 @@ export class UserFormComponent implements OnInit{
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-
   private readonly toastr = inject(ToastrService);
+  private readonly authService = inject(AuthService);
 
   userId: number | null = null;
   isEditMode = false;
   errors: Partial<Record<keyof UserDTO, string[]>> = {}; // Para mostrar errores de validación de Laravel
 
   isAdmin = false;
+  currentUserId: number | null = null;
 
 
   userForm = this.fb.group({
@@ -49,6 +51,11 @@ export class UserFormComponent implements OnInit{
 
 
   ngOnInit(): void {
+
+    const currentUser = this.authService.currentUserValue;
+    this.currentUserId = currentUser?.id || null;
+    this.isAdmin = currentUser?.role === 'admin';
+
     // Verificamos si hay ID en la URL
     const id = this.route.snapshot.paramMap.get('id');
     if(id) {
@@ -57,7 +64,14 @@ export class UserFormComponent implements OnInit{
       // NUEVO: En edición, la contraseña no es obligatoria (Validators.required no se aplica)
       // Si editamos, la contraseña no es obligatoria
       this.loadUser(this.userId);
+    } else if (this.router.url === '/profile' && this.currentUserId) {
+      // Caso especial: Perfil propio sin ID en URL
+      this.userId = this.currentUserId;
+      this.isEditMode = true;
+      this.loadUser(this.userId);
     } else {
+      this.userForm.patchValue({ role: 'user' });
+      this.userForm.get('role')?.disable();
       // NUEVO: En creación, forzamos que la contraseña sea obligatoria
       this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(8)]);
       // this.userForm.get('password_confirmation')?.setValidators([Validators.required, Validators.minLength(8)]);
@@ -82,7 +96,16 @@ export class UserFormComponent implements OnInit{
         email: user.email,
         role: user.role
       });
+      // Lógica de habilitación del campo rol:
+      // - Admin editando a OTRO usuario → puede cambiar rol
+      // - Cualquier otro caso (admin editándose a sí mismo o usuario normal) → no puede
+      if (this.isAdmin && this.currentUserId !== this.userId) {
+        this.userForm.get('role')?.enable();
+      } else {
+        this.userForm.get('role')?.disable();
+      }
     });
+
   }
 
 
@@ -91,7 +114,9 @@ export class UserFormComponent implements OnInit{
 
 
     // 1. Limpieza de datos: Clonamos para no afectar visualmente al formulario
-    const payload = { ...this.userForm.value } as UserDTO;
+    // const payload = { ...this.userForm.value } as UserDTO;
+    // CAMBIO: Usamos getRawValue() para incluir campos deshabilitados (como 'role')
+    const payload = { ...this.userForm.getRawValue() } as UserDTO;
 
 
     if(this.isEditMode){
