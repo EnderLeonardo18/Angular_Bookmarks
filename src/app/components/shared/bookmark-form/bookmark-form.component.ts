@@ -29,7 +29,7 @@ export class BookmarkFormComponent {
   bookmarkForm = this.fb.group({
     url: ['', [Validators.required, Validators.pattern('https?://.+')]],
     title: ['', [Validators.required]],
-    description: ['', [Validators.maxLength(255)]],
+    description: ['', [Validators.maxLength(2000)]],
     category: ['Anime', [Validators.required]],
     image_preview: [''], // Campo opcional para tu propia imagen
     status: ['Pendiente', [Validators.required]],
